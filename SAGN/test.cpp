@@ -1,66 +1,99 @@
 
 #include <LiquidCrystal.h>
-const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
-LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
-
-char text[] = "mama";
-char space[] = " "; 
-int repeat = 0;
-
-bool move = true;
-
-int textLength = sizeof(text) / sizeof(text[0])-1;
-int firstHalf = textLength/2;
-int secondHalf = textLength-firstHalf;
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 void setup() {
-  lcd.clear();
+
+  char text[] = "1234567891113151719212325&";
+  int textLength = (sizeof(text) / sizeof(text[0]))-1;
+  int firstHalf = textLength/2;
+  int secondHalf = textLength-firstHalf;
+  int countMove = 0;
+  bool move = true;
+
   lcd.begin(16, 2);
-  ok();
-
-}
-
-void loop() {
-
-}
-
-void ok(){
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print(text);
+
   while (move == true) {
-    delay(800);
-    lcd.clear();
-    if (repeat<=firstHalf){
-      for (int firstHalfLetters = 0+repeat;firstHalfLetters<=firstHalf-1; firstHalfLetters++) {
-       lcd.print(text[firstHalfLetters]);
+    if (firstHalf != 0) {
+      delay(700);
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      for (int firstHalfLetters = countMove; firstHalfLetters < firstHalf; firstHalfLetters++) {
+        lcd.print(text[firstHalfLetters]);
+      }
+      if (countMove <= firstHalf) {
+        for (int nice = 0; nice < countMove; nice++) {
+          lcd.print(" ");
+        }
+      }
+      else{
+        addSpace(textLength);
+
+      }
+        
+      for (int pawelMaDepresjePoMoichNazwachZmiennych = 0; pawelMaDepresjePoMoichNazwachZmiennych < countMove; pawelMaDepresjePoMoichNazwachZmiennych++) {
+        lcd.print(" ");
+      }
+
+      for (int pawelUwU = firstHalf; pawelUwU < textLength ;pawelUwU++) {
+        lcd.print(text[pawelUwU]);
       }
     }
-    else{
-      lcd.print(space);
-      lcd.print(space);
+    else {
+      delay(300);
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      for (int pawelMaDepresjePoMoichNazwachZmiennych = 0; pawelMaDepresjePoMoichNazwachZmiennych < countMove; pawelMaDepresjePoMoichNazwachZmiennych++) {
+        lcd.print(" ");
+      } 
+      lcd.print(text[0]);
     }
-
-    for (int spaceCount = 0; spaceCount < repeat; spaceCount++) {
-      if (repeat<=firstHalf){
-        lcd.print(space);
+    if (textLength < 18) {
+      if (countMove>=16-firstHalf) { 
+        move = false;
       }
-      lcd.print(space);
-
+      else{
+        countMove++;
+      }
     }
-
-    for (int i=firstHalf; i<textLength; i++) {
-      lcd.print(text[i]);
-    } 
-
-    if (16-secondHalf != repeat){
-      repeat++;
-    }
-    else{
-      move = false;
+    else {
+      if (countMove>=firstHalf) { 
+        move = false;
+      }
+      else{
+        countMove++;
+      }
     }
   }
   lcd.setCursor(0, 1);
   lcd.print("koniec");
+  lcd.print(firstHalf);
+  lcd.print(":");
+  lcd.print(textLength);
 
+}
+
+
+```
+void loop() {
+
+}
+
+void addSpace(float lenght) {
+  if (lenght == 0 || lenght == 1){
+    
+  }
+  else if ((lenght-1)/2 == lenght/2){
+    for(int space = 0; space <= int(lenght-1)/2 ; space++) {
+      lcd.print(" ");
+    }
+  }
+  else{
+    for(int space = 0; space < int(lenght/2) ; space++) {
+      lcd.print(" ");
+    }
+  }
 }
